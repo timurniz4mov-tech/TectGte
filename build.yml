@@ -1,0 +1,56 @@
+name: Build Living Civilizations
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle 8.1.1
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.1.1'
+
+      - name: Locate and build Forge project
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          BUILD_FILE="$(find . -type f \\( -name build.gradle -o -name build.gradle.kts \\) \\
+            -not -path '*/.gradle/*' -not -path '*/build/*' | sort | head -n 1)"
+
+          if [ -z "$BUILD_FILE" ]; then
+            echo "::error::Не найден build.gradle или build.gradle.kts. Проверь, что исходники мода загружены в репозиторий."
+            echo "Файлы в корне:"
+            ls -la
+            exit 1
+          fi
+
+          PROJECT_DIR="$(dirname "$BUILD_FILE")"
+          echo "Найден проект: $PROJECT_DIR"
+          gradle -p "$PROJECT_DIR" build --no-daemon
+
+          echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
+
+      - name: Upload mod JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: living-civilizations-forge-1.20.1
+          path: ${{ env.PROJECT_DIR }}/build/libs/*.jar
+          if-no-files-found: error
