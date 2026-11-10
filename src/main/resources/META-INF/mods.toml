@@ -1,0 +1,24 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="livingcivilizations"
+version="${mod_version}"
+displayName="Живые цивилизации"
+authors="LivingCivilizations"
+description='''Средневековый мир с NPC в стиле игроков, торговлей, дорогами, разбойниками и королевствами.'''
+
+[[dependencies.livingcivilizations]]
+modId="forge"
+mandatory=true
+versionRange="[47.2.0,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.livingcivilizations]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.21)"
+ordering="NONE"
+side="BOTH"

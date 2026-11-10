@@ -1,0 +1,41 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "minecraft:block/stone_bricks",
+    "road": "minecraft:block/stone_bricks"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        2,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#road"
+        },
+        "up": {
+          "texture": "#road"
+        },
+        "north": {
+          "texture": "#road"
+        },
+        "south": {
+          "texture": "#road"
+        },
+        "west": {
+          "texture": "#road"
+        },
+        "east": {
+          "texture": "#road"
+        }
+      }
+    }
+  ]
+}
